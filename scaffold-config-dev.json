@@ -1,0 +1,95 @@
+{
+    "version": "0.1.0",
+    "defaults": {
+        "framework": "Vue",
+        "template": "Basic"
+    },
+    "frameworks": [
+        {
+            "value": "Vue",
+            "name": "Vue2",
+            "subList": {
+                "template": [
+                    {
+                        "value": "Basic",
+                        "name": "Basic",
+                        "git": "https://github.com/lavas-project/lavas-template-vue.git",
+                        "branch": "release-basic",
+                        "desc": "Lavas 基础模版，包含 PWA 工程化相关必需内容",
+                        "locals": {
+                            "zh_CN": {
+                                "desc": "Lavas 基础模版，包含 PWA 工程化相关必需内容"
+                            },
+                            "en": {
+                                "desc": "Lavas Basic Template, contains the necessary content for PWA engineering"
+                            }
+                        }
+                    },
+                    {
+                        "value": "AppShell",
+                        "name": "AppShell",
+                        "git": "https://github.com/lavas-project/lavas-template-vue.git",
+                        "branch": "release-appshell",
+                        "desc": "Lavas AppShell 模版，包含 PWA 工程化以必需内容及基础 PWA AppShell 模版",
+                        "locals": {
+                            "zh_CN": {
+                                "desc": "Lavas AppShell 模版，包含 PWA 工程化以必需内容及基础 PWA AppShell 模版"
+                            },
+                            "en": {
+                                "desc": "Lavas AppShell Template, contains PWA engineered necessary Content and foundation PWA AppShell Templates"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "schema": {
+        "framework": {
+            "type": "list",
+            "name": "前端框架",
+            "description": "项目所选择的基础框架",
+            "locals": {
+                "zh_CN": {
+                    "name": "前端框架",
+                    "description": "项目所选择的基础框架"
+                },
+                "en": {
+                    "name": "framework",
+                    "description": "The framework chosen for the project"
+                }
+            },
+            "required": true,
+            "link": "frameworks",
+            "default": "vue",
+            "checkbox": false,
+            "disable": true,
+            "depLevel": 0,
+            "list": [],
+            "jsonType": "string"
+        },
+        "template": {
+            "type": "list",
+            "name": "模版类型",
+            "description": "初始化项目时选中的模版类型",
+            "locals": {
+                "zh_CN": {
+                    "name": "模版类型",
+                    "description": "初始化项目时选中的模版类型"
+                },
+                "en": {
+                    "name": "template",
+                    "description": "The type of template selected when initializing the project"
+                }
+            },
+            "dependence": "framework",
+            "default": "Basic",
+            "ref": "template",
+            "depLevel": 1,
+            "checkbox": false,
+            "required": true,
+            "list": [],
+            "jsonType": "string"
+        }
+    }
+}

@@ -3,6 +3,7 @@
  */
 'use strict';
 const path = require('path');
+const jsonP = require('../../../scaffold-config-dev.json');
 
 module.exports = {
     /**
@@ -11,8 +12,8 @@ module.exports = {
      * @type {String}
      */
     GLOBAL_CONF_URL: {
-        production: '../../../scaffold-config-dev.json',
-        development: '../../../scaffold-config-dev.json'
+        production: jsonP,
+        development: jsonP
     },
 
 }

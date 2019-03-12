@@ -1,7 +1,8 @@
 const utils = require('../../lib/utils')
 const locals = require('../../locals')();
 const log = require('../../lib/utils/log');
-const scaffold = require('../../lib/scaffold')
+const scaffold = require('../../lib/scaffold');
+const formQ = require('./formQuestion');
 const ora = require('ora');
 
 
@@ -22,9 +23,12 @@ module.exports = async function (conf) {
     // 初始化过程的6个步骤
 
     // 第一步：从云端配置获取 Meta 配置。确定将要下载的框架和模板 lish
-    let spinner = ora(locals.LOADING_FROM_CLOUD + '...')
-    let metaSchema = await scaffold.getMetaSchema();
+    let spinner = ora(locals.LOADING_FROM_CLOUD + '...');
     spinner.start();
+    let metaSchema = await scaffold.getMetaSchema();
+    spinner.stop();
 
+    // 第二步：等待用户选择将要下载的框架和模板
+    let metaParams = await formQ(metaSchema);
 
 };

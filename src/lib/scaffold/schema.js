@@ -9,7 +9,26 @@ const store = require('./store');
  * @return {Object} schema
  */
 function parseConfToSchema (conf = {}) {
-    
+    let properties = conf.schema || {};
+
+    Object.keys(properties).forEach((key) => {
+        let item = properties[key];
+
+        if (item.type === 'list') {
+            if (item.link && !item.dependence) {
+                properties[key].list = conf[item.link];
+            }
+            else if (item.dependence) {
+                properties[item.dependence].list.forEach((depItem) => {
+                    if (depItem.value === conf.defaults[item.dependence]) {
+                        properties[key].list = depItem.subList ? (depItem.subList[key] || []) : [];
+                    }
+                });
+            }
+        }
+    });
+
+    return properties;
 }
 
 /**

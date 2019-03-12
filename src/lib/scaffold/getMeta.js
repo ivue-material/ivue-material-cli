@@ -20,7 +20,7 @@ module.exports = async function () {
     // 如果 store 中已经存在了，2s 后再尝试更新下是不是有最新的数据
     if (data) {
         let timer = setTimeout(async () => {
-            let json = await requestP.get({ url: confUrl, json: true });
+            let json = await confUrl;
 
             store.set('data', json);
             clearTimeout(timer);
@@ -30,8 +30,8 @@ module.exports = async function () {
     }
 
     // 如果 store 里面没有，我们马上就获取一份最新的数据
-    data = await requestP.get({ url: confUrl, json: true });
+    data = await confUrl;
     store.set('data', data);
-    console.log(data)
+
     return data;
 }

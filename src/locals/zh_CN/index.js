@@ -9,4 +9,6 @@ module.exports = {
     NETWORK_DISCONNECT: '创建工程需要下载云端模版',
     NETWORK_DISCONNECT_SUG: '请确认您的设备处于网络可访问的环境中',
     LOADING_FROM_CLOUD: '正在拉取云端数据，请稍候',
+    INPUT_INVALID: '输入不符合规范',
+    PLEASE_INPUT: '请输入',
 };

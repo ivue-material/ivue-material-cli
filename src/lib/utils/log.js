@@ -1,6 +1,5 @@
 /**
  * @file logger
- * @author mj(zoumiaojiang@gmail.com)
  */
 
 'use strict';
@@ -151,6 +150,5 @@ log.write = function (format, varArgs) {
 };
 
 log.chalk = chalk;
-
 
 module.exports = log;

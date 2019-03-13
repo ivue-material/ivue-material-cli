@@ -11,4 +11,11 @@ module.exports = {
     LOADING_FROM_CLOUD: '正在拉取云端数据，请稍候',
     INPUT_INVALID: '输入不符合规范',
     PLEASE_INPUT: '请输入',
+    PLEASE_INPUT_NUM_DESC: '请选择一个数字指定',
+    PLEASE_INPUT_NUM: '请输入数字',
+    PLEASE_INPUT_RIGHR_NUM: '请输入正确的数字',
+    PLEASE_SELECT: '请选择一个',
+    PLEASE_SELECT_DESC: '按上下键选择',
+    META_TEMPLATE_ERROR: '获取模版 Meta 信息出错',
+    DOWNLOAD_TEMPLATE_ERROR: '下载模版出错，请检查当前网络',
 };

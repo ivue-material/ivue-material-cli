@@ -3,8 +3,12 @@
  */
 const exec = require('mz/child_process').exec;
 const fs = require('fs-extra');
+const os = require('os');
+const inquirer = require('inquirer');
+const path = require('path');
 
 const locals = require('../../locals')();
+const log = require('../../lib/utils/log');
 
 'use strict';
 
@@ -158,7 +162,71 @@ function questionList (key, schema, params) {
     // 层级
     else if (con.depLevel > 0) {
         // 表示是级联的操作
+        let dependence = con.dependence;
+        // 类型 template
+        let ref = con.ref;
+        let depList = schema[dependence].list;
+        let depValue = params[dependence] || schema[dependence].list[0];
 
+        depList.forEach((depItem) => {
+            if (depItem.value === depValue) {
+                sourceLish = (depItem.subList && depItem.subList[ref]);
+            }
+        });
+    }
+
+    sourceLish.forEach((item, index) => {
+        let url = '';
+        let { desc, name } = item;
+        let itemLocals = item.locals && item.locals[locals.LANG];
+
+        if (itemLocals) {
+            desc = itemLocals.desc || desc;
+            name = itemLocals.name || name;
+        }
+
+        desc = log.chalk.gray('\n    ' + desc);
+
+        choiceList.push({
+            value: item.value,
+            name: `${name}${desc}${url}`,
+            short: item.value
+        });
+
+        valueList.push(item.value);
+
+        text += ''
+            + log.chalk.blue('\n    [' + log.chalk.yellow(index + 1) + '] ' + name)
+            + desc;
+    });
+
+    // 如果是 windows 下的 git bash 环境，由于没有交互 GUI，所以就采用文本输入的方式来解决
+    if (os.platform() === 'win32' && process.env.ORIGINAL_PATH) {
+        return {
+            'type': 'input',
+            'name': key,
+            'message': locals.PLEASE_INPUT_NUM_DESC + ' ' + listName + '：' + text
+                + '\n' + log.chalk.green('?') + ' ' + locals.PLEASE_INPUT_NUM + '：',
+            'default': 1,
+            'valueList': valueList,
+            // 验证
+            'validate' () {
+                if (!/\d+/.test(value) || +value > valueList.length || +value <= 0) {
+                    return locals.PLEASE_INPUT_RIGHR_NUM;
+                }
+                return true;
+            }
+        };
+    }
+
+    return {
+        'type': 'list',
+        'name': key,
+        'message': `${locals.PLEASE_SELECT}${listName} (${log.chalk.green(locals.PLEASE_SELECT_DESC)}):`,
+        'choices': choiceList,
+        'default': choiceList[0].value || '',
+        'checked': !!con.checkbox,
+        'pageSize': 1000
     }
 }
 
@@ -193,10 +261,20 @@ module.exports = async function (schema) {
                 opts = await questionList(key, schema, params);
                 break;
         }
+
+        // 如果 list 只有一个 item 的时候，就不需要用户选择了，直接给定当前的值就行
+        if (type === 'list' && con.list.length === 1) {
+            data[key] = con.list[0].value;
+        }
+        else if (!con.disable) {
+            data = await inquirer.prompt([opts]);
+            if (opts.valueList) {
+                data[key] = opts.valueList[+data[key] - 1];
+            }
+        }
+
+        params = Object.assign({}, params, data);
     }
-
-    console.log(params);
-
 
     return params;
 };

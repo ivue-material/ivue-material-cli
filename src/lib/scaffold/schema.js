@@ -21,7 +21,9 @@ function parseConfToSchema (conf = {}) {
             else if (item.dependence) {
                 properties[item.dependence].list.forEach((depItem) => {
                     if (depItem.value === conf.defaults[item.dependence]) {
-                        properties[key].list = depItem.subList ? (depItem.subList[key] || []) : [];
+                        properties[key].list = depItem.subList ?
+                            (depItem.subList[key] || [])
+                            : [];
                     }
                 });
             }
@@ -37,6 +39,30 @@ function parseConfToSchema (conf = {}) {
  * @return {Object} 元 Schema
  */
 exports.getMetaSchema = async function () {
+    let meta = await getMeta();
+    let metaSchema = parseConfToSchema(meta);
+
+    store.set('metaSchema', metaSchema);
+
+    return metaSchema;
+}
+
+/**
+ * 获取 Schema, 用于生成用户输入的表单
+ *
+ * @param {Object} templateConf 每个模版的 config
+ * @return {Object} 返回的 JSON Schema
+ */
+exports.getSchema = function (templateConf = {}) {
+    return parseConfToSchema(templateConf);
+}
+
+/**
+ * 获取 meta JSON Schema, 用于验证 json 表单
+ *
+ * @return {Object} 返回的 JSON Schema
+ */
+exports.getMetaJsonSchema = async function () {
     let meta = await getMeta();
     let metaSchema = parseConfToSchema(meta);
 

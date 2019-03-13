@@ -31,7 +31,8 @@
         "request": "^2.83.0",
         "request-promise": "^4.2.1",
         "semver": "^5.4.1",
-        "shelljs": "^0.7.8"
+        "shelljs": "^0.7.8",
+        "download-git-repo": "^1.1.0"
     },
     "author": "",
     "license": "ISC"

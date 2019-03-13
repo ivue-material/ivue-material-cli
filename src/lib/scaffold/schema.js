@@ -34,6 +34,41 @@ function parseConfToSchema (conf = {}) {
 }
 
 /**
+ * 把约定的 JSON CONF 内容解析成标准的 JSON Schema
+ *
+ * @param {Object}  conf 按照约定格式的配置 json 文件
+ * @return {Object} JSON Schema 的对象
+ */
+function parseConfToJsonSchema (conf = {}) {
+    let schemas = conf.schema || {};
+    let properties = {};
+    let required = [];
+    let dependence = {};
+
+    Object.keys(schemas).forEach((key) => {
+        let item = schemas[key];
+
+        if (!item.disable) {
+            properties[key] = {
+                type: item.jsonType || item.type,
+                description: item.description
+            };
+
+            item.regExp && (properties[key].pattern = item.regExp);
+            item.required && required.push(key);
+        }
+    });
+
+    return {
+        type: 'object',
+        description: 'scaffold json schema',
+        properties,
+        required,
+        dependence
+    }
+}
+
+/**
  * 获取元 Schema, 即模板选择的 Schema
  *
  * @return {Object} 元 Schema
@@ -70,3 +105,13 @@ exports.getMetaJsonSchema = async function () {
 
     return metaSchema;
 }
+
+/**
+ * 获取 JSON schema, 用于验证 JSON 表单
+ *
+ * @param {Object} templateConf 每个模版的 config
+ * @return {Object} 返回的 JSON Schema
+ */
+exports.getJsonSchema = function (templateConf = {}) {
+    return parseConfToJsonSchema(templateConf);
+};

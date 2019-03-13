@@ -18,7 +18,9 @@ async function extendsDefaultFields (fields = {}, templateConf = {}) {
     Object.keys(schema).forEach((key) => (defaultFields[key] = schema[key].default))
 
     /* eslint-disable fecs-use-computed-property */
-    defaultFields.name = fields.name || 'ivue-cli'
+    // defaultFields.name = fields.name || 'ivue-cli'
+    defaultFields.name = fields.name || 'lavas-pwa';
+
     defaultFields.dirPath = path.resolve(process.cwd(), fields.dirPath || '', defaultFields.name);
 
     return _.merge({}, defaultFields, fields);
@@ -58,4 +60,26 @@ exports.getSchema = async function (templateConf = {}) {
         templateConf = await Schema.download();
     }
     return Schema.getSchema(templateConf);
+}
+
+/**
+ * 通过指定的参数渲染下载成功的模板
+ *
+ * @param {Object} params 导出参数
+ * @param {Object} templateConf 模版的配置
+ * @return {Promise<*>}   导出的结果
+ */
+exports.render = async function (params = {}, templateConf) {
+    if (!templateConf) {
+        // 如果实在没有提前下载模板，就现用默认的参数下载一个（这个模板是默认的）
+        templateConf = await Schema.download();
+    }
+
+    params = await extendsDefaultFields(params, templateConf);
+ 
+    return await template.render(params);
+}
+
+if (process.env.NODE_ENV === 'development') {
+    console.log('Woow! You are in development!!!');
 }

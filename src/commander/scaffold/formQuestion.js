@@ -27,10 +27,9 @@ async function getGitInfo () {
         email = await exec('git config --get user.email');
     }
     catch (e) {
-        author = author && author[0] && author[0].toString().trim();
-        email = email && email[0] && email[0].toString().trim();
     }
-
+    author = author && author[0] && author[0].toString().trim();
+    email = email && email[0] && email[0].toString().trim();
     return { author, email };
 }
 
@@ -192,9 +191,7 @@ function questionList (key, schema, params) {
             name: `${name}${desc}${url}`,
             short: item.value
         });
-
         valueList.push(item.value);
-
         text += ''
             + log.chalk.blue('\n    [' + log.chalk.yellow(index + 1) + '] ' + name)
             + desc;

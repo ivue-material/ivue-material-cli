@@ -4,8 +4,39 @@ const log = require('../../lib/utils/log');
 const scaffold = require('../../lib/scaffold');
 const formQ = require('./formQuestion');
 const ora = require('ora');
+const path = require('path');
+const fs = require('fs-extra');
+const axios = require('axios');
 
 let cwd = process.cwd();
+
+
+/**
+ * export  project
+ *
+ * @param  {Object} params params for export action
+ * @param  {Object} templateConf  the config content of project
+ */
+async function exportProject (params, templateConf) {
+    let spinner = ora(locals.LOADING_EXPORT_PROJECT + '...');
+
+    spinner.start();
+    await scaffold.render(params, templateConf);
+    spinner.stop();
+
+    // for log beautify
+    console.log('');
+    log.info(locals.INIT_SUCCESS);
+    log.info(locals.INIT_NEXT_GUIDE + '：\n\n'
+        + log.chalk.green('cd ' + params.name + '\n'
+            + 'npm install\n'
+            + 'npm run serve'
+        ));
+    try {
+        await axios('https://lavas.baidu.com/api/logger/send?action=cli&commander=init');
+    }
+    catch (e) { }
+}
 
 module.exports = async function (conf) {
     // 检测当前网络环境
@@ -49,5 +80,10 @@ module.exports = async function (conf) {
 
     // 测试某个路径下的文件是否存在
     let isPathExist = await fs.pathExists(projectTargetPath);
+    if (isPathExist) {
 
+    }
+    else {
+        await exportProject(params, templateConf);
+    }
 };

@@ -18,4 +18,8 @@ module.exports = {
     PLEASE_SELECT_DESC: '按上下键选择',
     META_TEMPLATE_ERROR: '获取模版 Meta 信息出错',
     DOWNLOAD_TEMPLATE_ERROR: '下载模版出错，请检查当前网络',
+    LOADING_EXPORT_PROJECT: '正在导出工程',
+    RENDER_TEMPLATE_ERROR: '模板渲染出错',
+    INIT_SUCCESS: '项目已创建成功',
+    INIT_NEXT_GUIDE: '您可以操作如下命令快速开始开发工程',
 };

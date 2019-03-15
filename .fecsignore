@@ -1,0 +1,9 @@
+coverage
+node_modules
+dist
+bin
+test
+packages/lavas-core-vue/test
+packages/lavas-core-vue/core/templates
+packages/lavas-core-vue/dist
+*.html

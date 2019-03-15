@@ -24,21 +24,6 @@
                                 "desc": "Lavas Basic Template, contains Ivue Material Ui"
                             }
                         }
-                    },
-                    {
-                        "value": "Pwa",
-                        "name": "Pwa",
-                        "git": "https://github.com/lavas-project/lavas-template-vue.git",
-                        "branch": "release-pwa",
-                        "desc": "基础模版，包含 PWA 工程化相关必需内容",
-                        "locals": {
-                            "zh_CN": {
-                                "desc": "基础模版，包含 PWA 工程化相关必需内容"
-                            },
-                            "en": {
-                                "desc": "Basic Template, contains the necessary content for PWA engineering"
-                            }
-                        }
                     }
                 ]
             }

@@ -19,7 +19,7 @@ async function extendsDefaultFields (fields = {}, templateConf = {}) {
 
     /* eslint-disable fecs-use-computed-property */
     // defaultFields.name = fields.name || 'ivue-cli'
-    defaultFields.name = fields.name || 'lavas-pwa';
+    defaultFields.name = fields.name || 'ivue-cli';
 
     defaultFields.dirPath = path.resolve(process.cwd(), fields.dirPath || '', defaultFields.name);
 
@@ -76,7 +76,7 @@ exports.render = async function (params = {}, templateConf) {
     }
 
     params = await extendsDefaultFields(params, templateConf);
- 
+
     return await template.render(params);
 }
 

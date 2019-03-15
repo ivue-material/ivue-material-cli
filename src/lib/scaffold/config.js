@@ -4,7 +4,7 @@
 'use strict';
 const path = require('path');
 const utils = require('../utils');
-const jsonP = require('../../../scaffold-config-dev.json');
+const jsonP = require('./templates/scaffold-config-dev.json');
 
 module.exports = {
 
@@ -24,7 +24,7 @@ module.exports = {
         production: jsonP,
         development: jsonP
     },
-    TAR_GZ_ENDPOINT: 'https://bos.nj.bpc.baidu.com/v1/assets/lavas/',
+    // TAR_GZ_ENDPOINT: 'https://bos.nj.bpc.baidu.com/v1/assets/lavas/',
     /**
      * 默认的 etpl 配置
      *

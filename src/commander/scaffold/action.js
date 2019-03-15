@@ -7,6 +7,8 @@ const ora = require('ora');
 const path = require('path');
 const fs = require('fs-extra');
 const axios = require('axios');
+const chalk = require('chalk'); // 给终端的字体添加样式
+const symbols = require('log-symbols'); // 终端上显示出 √ 或 × 等的图标
 
 let cwd = process.cwd();
 
@@ -30,7 +32,7 @@ async function exportProject (params, templateConf) {
     log.info(locals.INIT_NEXT_GUIDE + '：\n\n'
         + log.chalk.green('cd ' + params.name + '\n'
             + 'npm install\n'
-            + 'npm run serve'
+            + 'npm run server'
         ));
     try {
         await axios('https://lavas.baidu.com/api/logger/send?action=cli&commander=init');
@@ -81,7 +83,9 @@ module.exports = async function (conf) {
     // 测试某个路径下的文件是否存在
     let isPathExist = await fs.pathExists(projectTargetPath);
     if (isPathExist) {
-
+        // 错误提示项目已存在，避免覆盖原有项目
+        console.log(symbols.error, chalk.red('项目已存在'));
+        return;
     }
     else {
         await exportProject(params, templateConf);

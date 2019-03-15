@@ -19,6 +19,7 @@ const glob = require('glob');
 const archiver = require('archiver');
 
 const locals = require('../../locals')();
+const chalk = require('chalk'); // 给终端的字体添加样式
 
 /**
  * 通过指定框架名和模版名从服务器上拉取模版（要求在模版 relase 的时候注意上传的 CDN 路径）
@@ -44,50 +45,9 @@ async function downloadTemplateFromCloud (framework, template, targetPath) {
 
     try {
         // 请求模板
-
-        // 是否使用react模板
-        // await setTimeout(() => {
-        // let gitUrl = 'https://github.com:lavas-project/lavas-template-vue#release-basic';
-        // await download(gitUrl, outputFilename, { clone: true }, err => {
-        //     if (err) {
-        //         console.log(err)
-        //     }
-        //     else {
-        //         console.log('??')
-        //         spinner.stop()
-
-        //         store.set('storeDir', targetPath);
-
-        //         // 读取文件
-        //         let templateConfigContent = fs.readFileSync(path.resolve(targetPath, 'meta.json'), 'utf-8');
-        //         let templateConfig = JSON.parse(templateConfigContent);
-
-        //         store.set('templateConfig', templateConfig);
-
-        //         return templateConfig
-        //     }
-
-        // });
-
-        // let result = await axios.request({
-        //     responseType: 'arraybuffer',
-        //     url: 'https://codeload.github.com/lavas-project/lavas-template-vue/zip/release-basic',
-        //     method: 'get',
-        //     headers: {
-        //         'Content-Type': 'application/zip'
-        //     }
-        // });
-
-        // 写入文件
-        // fs.writeFileSync(outputFilename, result.data);
-
-        // 解压缩是反响过程，接口都统一为 uncompress
-        // await compressing.tgz.uncompress(outputFilename, targetPath);
-        // fs.removeSync(outputFilename);
-
         let result = await axios.request({
             responseType: 'arraybuffer',
-            url: 'https://codeload.github.com/lavas-project/lavas-template-vue/zip/release-basic',
+            url: 'https://codeload.github.com/qq282126990/webpack/zip/release-' + template,
             method: 'get',
             headers: {
                 'Content-Type': 'application/zip'
@@ -155,7 +115,7 @@ function renderTemplate (params, tmpStoreDir) {
                 }
             });
 
-            addPackageJson(tmpStoreDir, params);
+            // addPackageJson(tmpStoreDir, params);
 
             if (params.isStream) {
                 //  设置压缩级别
@@ -186,29 +146,32 @@ function renderTemplate (params, tmpStoreDir) {
  * @param {string} dir    指定添加 package.json 文件的目录
  * @param {Object} params 渲染的参数
  */
-function addPackageJson (dir, params) {
-    let templateConfig = store.get('templateConfig');
-    let version = store.get('version') || '2';
-    let etplCompile = new etpl.Engine(templateConfig.etpl || conf.ETPL);
-    let packageJson = templateConfig.exportsPackageJson;
+// function addPackageJson (dir, params) {
+//     let templateConfig = store.get('templateConfig');
+//     let version = store.get('version') || '2';
+//     let etplCompile = new etpl.Engine(templateConfig.etpl || conf.ETPL);
+//     let packageJson = templateConfig;
 
-    packageJson.ivue = {
-        core: templateConfig.core || 'ivue-core-vue',
-        version
-    };
+//     // packageJson.ivue = {
+//     //     core: templateConfig.core || 'ivue-core-vue',
+//     //     version
+//     // };
 
-    let fileName = 'package.json';
-    let filePath = path.resolve(dir, fileName);
-    let fileContent = (packageJson && typeof packageJson === 'object') ?
-        JSON.stringify(packageJson, null, 4)
-        : fs.readFileSync(path.resolve(__dirname, 'template', 'package.json'), 'utf8');
+//     let fileName = 'package.json';
+//     let filePath = path.resolve(dir, fileName);
 
-    // 如果没有在模版中指定 package.json 的时候，就需要使用默认的文件了
-    params.coreName = templateConfig.core || 'ivue-core-name';
-    fileContent = etplCompile.compile(fileContent)(params);
+//     let fileContent = (packageJson && typeof packageJson === 'object') ?
+//         JSON.stringify(packageJson, null, 4)
+//         : fs.readFileSync(path.resolve(__dirname, 'templates', 'package.json'), 'utf8');
 
-    fs.writeFileSync(filePath, fileContent);
-}
+//     // 如果没有在模版中指定 package.json 的时候，就需要使用默认的文件了
+//     params.coreName = templateConfig.core || 'ivue-core-name';
+
+//     console.log(params)
+//     fileContent = etplCompile.compile(fileContent)(params);
+
+//     fs.writeFileSync(filePath, fileContent);
+// }
 
 /**
  * 删除某个目录中的指定文件或文件夹
@@ -321,6 +284,8 @@ exports.render = async function (params) {
         // 如果路径存在，则返回 true，否则返回 false
         if (!fs.existsSync(storeDir)) {
             await this.download(params);
+        }
+        else {
         }
 
         // 将创建的目录路径

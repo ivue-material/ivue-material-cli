@@ -14,8 +14,8 @@ let version = process.env.VERSION || require('../../package.json').version;
 checkUpdate().then(async () => {
     // 如果后序没有输入命令，执行帮助指令
     if (!process.argv[2]) {
-        let output = await exec('node ivue-cli.js -h');
-        // console.log(output[0]);
+        let output = await exec('ivue -h');
+        console.log(output[0]);
     }
     // 获取版本号
     else {

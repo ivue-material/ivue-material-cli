@@ -5,7 +5,4 @@ node_modules
 *.tmp
 *.swp
 .idea
-dist
-coverage
-.nyc_output
-package-lock.json
+*-log.json

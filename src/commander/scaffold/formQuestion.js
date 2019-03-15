@@ -73,6 +73,8 @@ async function questionInput (key, schema, params) {
             if (!fs.existsSync(nowPath)) {
                 return invalidate || locals.INPUT_INVALID;
             }
+            else {
+            }
 
             return true;
         }

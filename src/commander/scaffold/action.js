@@ -32,7 +32,7 @@ async function exportProject (params, templateConf) {
     log.info(locals.INIT_NEXT_GUIDE + '：\n\n'
         + log.chalk.green('cd ' + params.name + '\n'
             + 'npm install\n'
-            + 'npm run server'
+            + 'npm run serve'
         ));
     try {
         await axios('https://lavas.baidu.com/api/logger/send?action=cli&commander=init');

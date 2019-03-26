@@ -41,8 +41,8 @@ async function downloadTemplateFromCloud (framework, template, targetPath) {
     fs.mkdirsSync(targetPath);
 
     framework = (framework || 'vue').toLowerCase();
-    template = (template || 'basic').toLowerCase();
-
+    template = (template || 'basic').toLowerCase().replace(/\s/,'-');
+    
     try {
         // 请求模板
         let result = await axios.request({
@@ -206,9 +206,6 @@ exports.download = async function (metaParams = {}) {
     let validate = ajv.compile(metaJsonSchema);
     let valid = validate(metaParams);
 
-    // 获取文件夹名称
-    const files = fs.readdirSync(storeDir);
-
     if (!valid) {
         throw new Error(JSON.stringify(validate.errors));
     }
@@ -216,9 +213,10 @@ exports.download = async function (metaParams = {}) {
     //  通过指定框架名和模版名从服务器上拉取模版
     await downloadTemplateFromCloud(framework.value, template.value, storeDir);
 
+    // 获取文件夹名称
+    const files = fs.readdirSync(storeDir);
 
     store.set('storeDir', `${storeDir}/${files}`);
-
 
     let templateConfigContent = fs.readFileSync(path.resolve(`${storeDir}/${files}`, 'meta.json'), 'utf-8');
 

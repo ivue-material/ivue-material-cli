@@ -76,7 +76,6 @@ function parseConfToJsonSchema (conf = {}) {
 exports.getMetaSchema = async function () {
     let meta = await getMeta();
     let metaSchema = parseConfToSchema(meta);
-
     store.set('metaSchema', metaSchema);
 
     return metaSchema;

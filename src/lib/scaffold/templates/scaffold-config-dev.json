@@ -21,7 +21,22 @@
                                 "desc": "基础模版，包含 Ivue Material Ui"
                             },
                             "en": {
-                                "desc": "Lavas Basic Template, contains Ivue Material Ui"
+                                "desc": "Basic Template, contains Ivue Material Ui"
+                            }
+                        }
+                    },
+                    {
+                        "value": "Basic-MPA",
+                        "name": "Basic-MPA",
+                        "git": "https://github.com/lavas-project/lavas-template-vue.git",
+                        "branch": "release-basic-mpa",
+                        "desc": "多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
+                        "locals": {
+                            "zh_CN": {
+                                "desc": "多页面模版，包含 Ivue Material Ui"
+                            },
+                            "en": {
+                                "desc": "Mpa Template, contains Ivue Material Ui"
                             }
                         }
                     },
@@ -30,13 +45,28 @@
                         "name": "PWA-SPA",
                         "git": "https://github.com/lavas-project/lavas-template-vue.git",
                         "branch": "release-pwa-spa",
-                        "desc": "基础模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
+                        "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "基础模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 "
+                                "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 "
                             },
                             "en": {
-                                "desc": "Lavas Basic Template, contains Ivue Material Ui and PWA"
+                                "desc": "PWA Basic Template, contains Ivue Material Ui and PWA"
+                            }
+                        }
+                    },
+                    {
+                        "value": "PWA-MPA",
+                        "name": "PWA-MPA",
+                        "git": "https://github.com/lavas-project/lavas-template-vue.git",
+                        "branch": "release-pwa-mpa",
+                        "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
+                        "locals": {
+                            "zh_CN": {
+                                "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 "
+                            },
+                            "en": {
+                                "desc": "PWA Mpa Template, contains Ivue Material Ui and PWA"
                             }
                         }
                     }

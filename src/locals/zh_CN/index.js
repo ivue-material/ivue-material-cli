@@ -22,4 +22,5 @@ module.exports = {
     RENDER_TEMPLATE_ERROR: '模板渲染出错',
     INIT_SUCCESS: '项目已创建成功',
     INIT_NEXT_GUIDE: '您可以操作如下命令快速开始开发工程',
+    UPDATE_TIPS: 'IVue Material Cli 有新的版本更新，您可以通过 `npm update -g ivue-material-cli` 命令更新版本!',
 };

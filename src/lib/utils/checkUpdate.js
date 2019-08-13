@@ -15,7 +15,7 @@ const locals = require('../../locals')();
 // 获取项目根目录
 const getHome = require('./index').getHome;
 
-// const TIME_RANGE = 24 * 60 * 60 * 1000;
+const TIME_RANGE = 24 * 60 * 60 * 1000;
 const NPM_REGISTRY = 'https://registry.npm.taobao.org/ivue-material-cli';
 
 
@@ -42,16 +42,15 @@ async function requestPackageInfo () {
 module.exports = async function () {
     // 检测更新路径
     let updateCheckerInfoPath = path.resolve(getHome(), '.updateChecker.txt');
-
     // true如果路径存在false则返回，否则返回。
     if (fs.existsSync(updateCheckerInfoPath)) {
         // 读取文件
         let updateCheckerInfo = fs.readFileSync(updateCheckerInfoPath, 'utf-8');
 
-        // if (Date.now() - (+updateCheckerInfo) >= TIME_RANGE) {
+        if (Date.now() - (+updateCheckerInfo) >= TIME_RANGE) {
             await requestPackageInfo();
             fs.writeFileSync(updateCheckerInfoPath, Date.now() + '');
-        // }
+        }
     }
     else {
         let dirname = path.dirname(updateCheckerInfoPath);

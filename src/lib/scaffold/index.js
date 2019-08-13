@@ -3,7 +3,9 @@ const store = require('./store');
 const path = require('path');
 const _ = require('lodash');
 const template = require('./template');
-
+const fs = require('fs-extra');
+// ETPL是一个强复用，灵活，高性能的JavaScript的模板引擎，适用于浏览器端或节点环境中视图的生成
+const etpl = require('etpl');
 /**
  * 获取导出的所有的 fields （包含 default 参数）
  *
@@ -82,4 +84,36 @@ exports.render = async function (params = {}, templateConf) {
 
 if (process.env.NODE_ENV === 'development') {
     console.log('Woow! You are in development!!!');
+}
+
+
+/**
+ * 通过指定的参数渲染下载成功的模板
+ *
+ * @param {Array} params 需要设置的参数
+ */
+exports.setCheckboxParams = async function (params = []) {
+    const storeDir = store.get('storeDir');
+    const templateConfig = store.get('templateConfig');
+    const etplCompile = new etpl.Engine(templateConfig.etpl);
+
+    params.forEach((key) => {
+        // 插入路由配置
+        if (key === 'router') {
+            // 读取文件
+            let packageConfig = fs.readFileSync(path.resolve(storeDir, 'package.json'), 'utf-8');
+            // 插入版本号
+            packageConfig = JSON.parse(packageConfig)
+            packageConfig.devDependencies['vue-router'] = '^3.1.2';
+
+            // 转换字符串
+            packageConfig = JSON.stringify(packageConfig, null, 4);
+            packageConfig = etplCompile.compile(packageConfig)();
+
+            // 重新写入文件
+            fs.writeFileSync(path.resolve(storeDir, 'package.json'), packageConfig);
+        }
+
+    })
+    console.log(params)
 }

@@ -9,6 +9,7 @@ const store = require('./store');
  * @return {Object} schema
  */
 function parseConfToSchema (conf = {}) {
+
     let properties = conf.schema || {};
 
     Object.keys(properties).forEach((key) => {
@@ -74,6 +75,7 @@ function parseConfToJsonSchema (conf = {}) {
  * @return {Object} 元 Schema
  */
 exports.getMetaSchema = async function () {
+
     let meta = await getMeta();
     let metaSchema = parseConfToSchema(meta);
     store.set('metaSchema', metaSchema);

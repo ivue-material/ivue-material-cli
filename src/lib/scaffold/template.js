@@ -41,8 +41,8 @@ async function downloadTemplateFromCloud (framework, template, targetPath) {
     fs.mkdirsSync(targetPath);
 
     framework = (framework || 'vue').toLowerCase();
-    template = (template || 'basic').toLowerCase().replace(/\s/,'-');
-    
+    template = (template || 'basic').toLowerCase().replace(/\s/, '-');
+
     try {
         // 请求模板
         let result = await axios.request({
@@ -178,11 +178,13 @@ function renderTemplate (params, tmpStoreDir) {
  *
  * @param {string} dir 根目录
  * @param {*} ignores 过滤的文件或文件夹数组
+ * @param {*} checkboxParams 需要插入的文件
  */
-function deleteFilter (dir, ignores = []) {
+function deleteFilter (dir, ignores = [], checkboxFile) {
     ignores.concat(...conf.DEFAULT_EXPORTS_IGNORES).forEach((target) => {
         let targetPath = path.resolve(dir, target);
         // 如果路径存在，则返回 true，否则返回 false。
+
         //  删除文件
         fs.existsSync(targetPath) && fs.removeSync(targetPath);
     })
@@ -289,7 +291,6 @@ exports.render = async function (params) {
         // 将创建的目录路径
         fs.mkdirSync(tmpStoreDir);
 
-        console.log(storeDir)
         // 拷贝文件
         fs.copySync(storeDir, tmpStoreDir);
 

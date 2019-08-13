@@ -120,6 +120,28 @@
             "required": true,
             "list": [],
             "jsonType": "string"
+        },
+        "checkbox": {
+            "type": "checkbox",
+            "key": "checkbox",
+            "name": "选择选项",
+            "description": "检查项目所需的功能",
+            "required": true,
+            "checkbox": true,
+            "list": [
+                {
+                    "value": "router",
+                    "name": "Router",
+                    "checked": false
+                },
+                {
+                    "value": "vuex",
+                    "name": "Vuex",
+                    "checked": false
+                }
+            ],
+            "depLevel": 0,
+            "jsonType": "string"
         }
     }
 }

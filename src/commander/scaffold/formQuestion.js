@@ -143,6 +143,7 @@ async function questionYesOrNo (key, schema, params) {
  */
 function questionList (key, schema, params) {
     let con = schema[key];
+
     // 来源列表
     let sourceLish = [];
     // 选择列表
@@ -230,6 +231,48 @@ function questionList (key, schema, params) {
 }
 
 /**
+ * 询问 checkbox-plus 类型的参数 (多选或者单选)
+ *
+ * @param  {string} key    参数的 key
+ * @param  {Object} schema schema 内容
+ * @param  {Object} params 当前已有的参数
+ * @return {Object}        question 需要的参数
+ */
+function questionCheckboxPlus (key, schema, params) {
+    let con = schema[key];
+
+    // 来源列表
+    let sourceLish = con.list;
+    // 选择列表
+    let choiceList = [];
+
+    sourceLish.forEach((item, index) => {
+        let { desc, name } = item;
+        let itemLocals = item.locals && item.locals[locals.LANG];
+
+        if (itemLocals) {
+            desc = itemLocals.desc || desc;
+            name = itemLocals.name || name;
+        }
+
+        desc = log.chalk.gray('\n    ' + desc);
+
+        choiceList.push({
+            value: item.value,
+            name: name,
+            checked: item.checked
+        });
+    });
+
+    return {
+        'type': 'checkbox',
+        'name': key,
+        'message': con.name,
+        'choices': choiceList,
+    }
+}
+
+/**
  * 解析schme, 生成 form 表单
  *
  * @param  {Object} schema  传入的 schema 规则
@@ -238,41 +281,63 @@ function questionList (key, schema, params) {
 module.exports = async function (schema) {
     let params = {};
 
-    for (let key of Object.keys(schema)) {
-        let con = schema[key];
-        let type = con.type;
+    if (schema.key) {
         let opts = {};
         let data = {};
 
-        switch (type) {
-            case 'string':
-            case 'number':
-            case 'password':
-                // 输入密码
-                opts = await questionInput(key, schema, params);
-                break;
-            case 'boolean':
-                // 确认
-                opts = await questionYesOrNo(key, schema, params);
-                break;
-            case 'list':
-                // 列表
-                opts = await questionList(key, schema, params);
-                break;
-        }
+        opts = await questionCheckboxPlus(schema.key,
+            {
+                [schema.key]: schema
+            }, params);
 
-        // 如果 list 只有一个 item 的时候，就不需要用户选择了，直接给定当前的值就行
-        if (type === 'list' && con.list.length === 1) {
-            data[key] = con.list[0].value;
-        }
-        else if (!con.disable) {
-            data = await inquirer.prompt([opts]);
-            if (opts.valueList) {
-                data[key] = opts.valueList[+data[key] - 1];
-            }
-        }
+        data = await inquirer.prompt([opts]).then(function (answers) {
+            return {
+                [schema.key]: answers[schema.key]
+            };
+        });
 
         params = Object.assign({}, params, data);
+
+        return params
+    }
+    else {
+        for (let key of Object.keys(schema)) {
+            let con = schema[key];
+            let type = con.type;
+            let opts = {};
+            let data = {};
+
+            switch (type) {
+                case 'string':
+                case 'number':
+                case 'password':
+                    // 输入密码
+                    opts = await questionInput(key, schema, params);
+                    break;
+                case 'boolean':
+                    // 确认
+                    opts = await questionYesOrNo(key, schema, params);
+                    break;
+                case 'list':
+                    // 列表
+                    opts = await questionList(key, schema, params);
+                    break;
+            }
+
+            // 如果 list 只有一个 item 的时候，就不需要用户选择了，直接给定当前的值就行
+            if (type === 'list' && con.list.length === 1) {
+                data[key] = con.list[0].value;
+            }
+            else if (!con.disable && !con.key) {
+                data = await inquirer.prompt([opts]);
+                if (opts.valueList) {
+                    data[key] = opts.valueList[+data[key] - 1];
+                }
+            }
+
+            params = Object.assign({}, params, data);
+
+        }
     }
 
     return params;

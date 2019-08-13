@@ -18,12 +18,13 @@ let cwd = process.cwd();
  *
  * @param  {Object} params params for export action
  * @param  {Object} templateConf  the config content of project
+ * @param  {Object} checkboxParams  checkbox select option
  */
-async function exportProject (params, templateConf) {
+async function exportProject (params, templateConf, checkboxParams) {
     let spinner = ora(locals.LOADING_EXPORT_PROJECT + '...');
 
     spinner.start();
-    await scaffold.render(params, templateConf);
+    await scaffold.render(params, templateConf, checkboxParams);
     spinner.stop();
 
     // for log beautify
@@ -65,10 +66,16 @@ module.exports = async function (conf) {
     // 第二步：等待用户选择将要下载的框架和模板
     let metaParams = await formQ(metaSchema);
 
+    // 获取用户选择的参数
+    let checkboxParams = await formQ(metaSchema.checkbox)
+
     // 第三步：通过用户选择的框架和模板，下载模板
     spinner.start();
-    let templateConf = await scaffold.download(metaParams);
+    let templateConf = await scaffold.download(metaParams, checkboxParams);
     spinner.stop();
+
+    // 设置用户选择的参数
+    scaffold.setCheckboxParams(checkboxParams.checkbox)
 
     // 第四步：根据下载的模板的 meta.json 获取当前模板所需要用户输入的字段 schema
     let schema = await scaffold.getSchema(templateConf);
@@ -88,6 +95,6 @@ module.exports = async function (conf) {
         return;
     }
     else {
-        await exportProject(params, templateConf);
+        await exportProject(params, templateConf, checkboxParams);
     }
 };

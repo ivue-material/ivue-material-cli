@@ -2,4 +2,4 @@
 
 process.env.NODE_PATH = __dirname + '/../node_modules/'
 process.env.NODE_ENV = 'development';
-require('../src/commander');
+require('../packages/cli/src/commander');

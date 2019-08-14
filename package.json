@@ -7,12 +7,12 @@
         "bin",
         "src"
     ],
-    "changelog": {
-        "repo": "qq282126990/ivue-cli",
-        "cacheDir": ".changelog"
-    },
     "bin": {
         "ivue": "bin/ivue-material-cli.js"
+    },
+    "devDependencies": {
+        "lerna": "^3.16.4",
+        "lerna-changelog": "^0.8.2"
     },
     "dependencies": {
         "ajv": "^5.1.3",

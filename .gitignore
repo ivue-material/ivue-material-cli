@@ -9,3 +9,5 @@ dist
 coverage
 .nyc_output
 package-lock.json
+.changelog/
+lerna-debug.log

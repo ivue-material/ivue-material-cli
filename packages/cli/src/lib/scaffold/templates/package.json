@@ -1,0 +1,25 @@
+{
+  "name": "*__name__*",
+  "version": "1.0.0",
+  "description": "*__desc__*",
+  "author": "*__name__*<*__email__*>",
+  "scripts": {
+    "dev": "ivue dev"
+  },
+  "ivue": true,
+  "keywords": [
+    "vue"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "array-includes": "^3.0.3",
+    "array.prototype.find": "^2.0.4",
+    "es6-promise": "^4.2.6",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "babel-preset-vue-app": "^2.0.0",
+    "cross-env": "^5.2.0",
+    "lerna-changelog": "^0.8.2"
+  }
+}

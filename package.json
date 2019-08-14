@@ -7,6 +7,10 @@
         "bin",
         "src"
     ],
+    "changelog": {
+        "repo": "qq282126990/ivue-cli",
+        "cacheDir": ".changelog"
+    },
     "bin": {
         "ivue": "bin/ivue-material-cli.js"
     },

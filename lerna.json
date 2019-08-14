@@ -4,16 +4,5 @@
     ],
     "name": "ivue-material-cli",
     "message": "chore(release): publish",
-    "changelog": {
-        "repo": "qq282126990/ivue-cli",
-        "labels": {
-            "breaking": ":boom: Breaking Change",
-            "enhancement": ":rocket: Enhancement",
-            "bug": ":bug: Bug Fix",
-            "documentation": ":memo: Documentation",
-            "internal": ":house: Internal"
-        },
-        "cacheDir": ".changelog"
-    },
     "version": "0.0.0"
 }

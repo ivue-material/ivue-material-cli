@@ -11,8 +11,7 @@
         "ivue": "bin/ivue-material-cli.js"
     },
     "devDependencies": {
-        "lerna": "^3.16.4",
-        "lerna-changelog": "^0.8.2"
+        "lerna": "^3.16.4"
     },
     "dependencies": {
         "ajv": "^5.1.3",

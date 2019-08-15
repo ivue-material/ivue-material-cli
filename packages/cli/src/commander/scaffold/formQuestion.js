@@ -264,7 +264,7 @@ function questionCheckboxPlus (key, schema, params) {
     });
 
     return {
-        'type': 'checkbox',
+        'type': con.type,
         'name': key,
         'message': con.name,
         'choices': choiceList

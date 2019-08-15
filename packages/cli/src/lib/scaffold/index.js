@@ -35,6 +35,99 @@ async function extendsDefaultFields (fields = {}, templateConf = {}) {
 
 
 /**
+ * main.js
+ *
+ * @param {String} storeDir 文件根目录
+ * @param {String} currentDir 当前文件目录
+ * @param {Function} etplCompile 字符串转换
+ * @param {Array} params 需要设置的参数
+ */
+function setMainJs (storeDir, currentDir, etplCompile, params) {
+
+    // 模块
+    let nodeModules = '';
+    // 路径列表
+    let urls = '';
+    // 配置
+    let configs = '';
+    // 名字列表
+    let names = '';
+
+
+    params.forEach((key) => {
+        // 插入路由配置
+        if (key === 'router') {
+            nodeModules += `${nodeModules.length === 0 ? '' : '\n'}import VueRouter from 'vue-router'${nodeModules.length === 0 ? '\n' : ''}`;
+
+            urls += `${urls.length === 0 ? '' : '\n'}import router from './router'`;
+
+            configs += `\nVue.use(VueRouter)`;
+
+            names += `${names.length === 0 ? '' : '\n'}    router,`;
+        }
+
+        // 插入vuex配置
+        if (key === 'vuex') {
+            urls += `${urls.length === 0 ? '' : '\n'}import store from './store'`;
+
+            names += `${names.length === 0 ? '' : '\n'}    store,`;
+        }
+    });
+
+    // main.js
+    let mainJs =
+        `import Vue from 'vue'
+${nodeModules}
+import App from './App.vue'
+${urls}${urls.length > 0 ? '\n' : ''}
+import IvueMaterial from 'ivue-material'
+import 'ivue-material/dist/styles/ivue.css'
+${configs}
+Vue.use(IvueMaterial)
+
+Vue.config.productionTip = false
+
+new Vue({
+${names}${names.length > 0 ? '\n' : ''}    render: h => h(App),
+}).$mount('#app')
+`;
+
+    mainJs = etplCompile.compile(mainJs)();
+
+    // 重新写入文件
+    fs.writeFileSync(path.resolve(`${storeDir}/src`, 'main.js'), mainJs);
+}
+
+
+/**
+ * package.json
+ *
+ * @param {String} storeDir 文件根目录
+ * @param {Function} etplCompile 字符串转换
+ * @param {Object} nodeModules 包名
+ */
+function setCssPackConfig (storeDir, etplCompile, nodeModules) {
+    // 读取文件
+    let packageConfig = fs.readFileSync(path.resolve(storeDir, 'package.json'), 'utf-8');
+    // 插入版本号
+    packageConfig = JSON.parse(packageConfig);
+
+
+    for (key in nodeModules) {
+        packageConfig.devDependencies[key] = nodeModules[key];
+    }
+
+    // 转换字符串
+    packageConfig = JSON.stringify(packageConfig, null, 4);
+    packageConfig = etplCompile.compile(packageConfig)();
+
+    // 重新写入文件
+    fs.writeFileSync(path.resolve(storeDir, 'package.json'), packageConfig);
+}
+
+
+
+/**
  * 获取元 Schema - 涉及模版下载的 Schema
  *
  * @return {Promise<*>}   Meta Schema
@@ -119,70 +212,41 @@ exports.setCheckboxParams = async function (params = []) {
     setMainJs(storeDir, currentDir, etplCompile, params);
 }
 
+
 /**
- * main.js
+ * 配置css参数
  *
- * @param {String} storeDir 文件根目录
- * @param {String} currentDir 当前文件目录
- * @param {Function} etplCompile 字符串转换
  * @param {Array} params 需要设置的参数
  */
-function setMainJs (storeDir, currentDir, etplCompile, params) {
+exports.setCssParams = async function (params = '') {
+    const storeDir = store.get('storeDir');
+    const templateConfig = store.get('templateConfig');
+    const etplCompile = new etpl.Engine(templateConfig.etpl);
 
-    // 模块
-    let nodeModules = '';
-    // 路径列表
-    let urls = '';
-    // 配置
-    let configs = '';
-    // 名字列表
-    let names = '';
+    let nodeModules = {};
 
+    // scss
+    if (params === 'scss') {
+        nodeModules = {
+            'node-sass': '^4.12.0',
+            'sass-loader': '^7.2.0'
+        };
+    }
+    // less
+    else if (params === 'less') {
+        nodeModules = {
+            'less': '^3.0.4',
+            'less-loader': '^7.2.0'
+        };
+    }
+    // stylus
+    else if (params === 'stylus') {
+        nodeModules = {
+            'stylus': '^0.54.5',
+            'stylus-loader': '^3.0.2'
+        };
+    }
 
-    params.forEach((key) => {
-        // 插入路由配置
-        if (key === 'router') {
-            nodeModules += `${nodeModules.length === 0 ? '' : '\n'}import VueRouter from 'vue-router'`;
-
-            urls += `${urls.length === 0 ? '' : '\n'}import router from './router'`;
-
-            configs += `${configs.length === 0 ? '' : '\n'}Vue.use(VueRouter)`;
-
-            names += `${names.length === 0 ? '' : '\n'}    router,`;
-        }
-
-        // 插入vuex配置
-        if (key === 'vuex') {
-            urls += `${urls.length === 0 ? '' : '\n'}import store from './store'`;
-
-            names += `${names.length === 0 ? '' : '\n'}    store,`;
-        }
-    });
-
-    // main.js
-    let mainJs =
-        `import Vue from 'vue'
-${nodeModules}
-
-import App from './App.vue'
-${urls}
-
-import IvueMaterial from 'ivue-material'
-import 'ivue-material/dist/styles/ivue.css'
-
-${configs}
-Vue.use(IvueMaterial)
-
-Vue.config.productionTip = false
-
-new Vue({
-${names}
-    render: h => h(App),
-}).$mount('#app')
-`;
-
-    mainJs = etplCompile.compile(mainJs)();
-
-    // 重新写入文件
-    fs.writeFileSync(path.resolve(`${storeDir}/src`, 'main.js'), mainJs);
+    // 设置css版本号
+    setCssPackConfig(storeDir, etplCompile, nodeModules);
 }

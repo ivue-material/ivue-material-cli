@@ -66,11 +66,17 @@ module.exports = async function (conf) {
     // 第二步：等待用户选择将要下载的框架和模板
     let metaParams = await formQ(metaSchema);
 
-    let checkboxParams
+    let checkboxParams;
+    let cssParams;
     // 只有基础模板才可以自定义选项
     if (metaParams.template === 'Basic') {
         // 获取用户选择的参数
-        checkboxParams = await formQ(metaSchema.checkbox)
+        checkboxParams = await formQ(metaSchema.checkbox);
+
+        // 是否选择了css
+        if (checkboxParams.checkbox.indexOf('css') > -1) {
+            cssParams = await formQ(metaSchema.csssProcessors);
+        }
     }
 
     // 第三步：通过用户选择的框架和模板，下载模板
@@ -81,7 +87,12 @@ module.exports = async function (conf) {
     // 设置用户选择的参数
     // 只有基础模板才可以自定义选项
     if (metaParams.template === 'Basic') {
-        scaffold.setCheckboxParams(checkboxParams.checkbox);
+        await scaffold.setCheckboxParams(checkboxParams.checkbox);
+
+        // 是否选择了css
+        if (cssParams) {
+            await scaffold.setCssParams(cssParams.csssProcessors);
+        }
     }
 
     // 第四步：根据下载的模板的 meta.json 获取当前模板所需要用户输入的字段 schema

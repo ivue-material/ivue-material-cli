@@ -18,10 +18,10 @@
                         "desc": "基础模版，包含 Ivue Material Ui",
                         "locals": {
                             "zh_CN": {
-                                "desc": "基础模版，包含 Ivue Material Ui"
+                                "desc": "基础模版，包含 Ivue Material Ui (默认包含 Babel)"
                             },
                             "en": {
-                                "desc": "Basic Template, contains Ivue Material Ui"
+                                "desc": "Basic Template, contains Ivue Material Ui (default Babel)"
                             }
                         }
                     },
@@ -33,10 +33,10 @@
                         "desc": "多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "多页面模版，包含 Ivue Material Ui"
+                                "desc": "多页面模版，包含 Ivue Material Ui (默认包含 Babel, Router,Sass)"
                             },
                             "en": {
-                                "desc": "Mpa Template, contains Ivue Material Ui"
+                                "desc": "Mpa Template, contains Ivue Material Ui (default Babel,Router,Sass)"
                             }
                         }
                     },
@@ -48,10 +48,10 @@
                         "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 "
+                                "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 (默认包含 Babel,Router,Sass)"
                             },
                             "en": {
-                                "desc": "PWA Basic Template, contains Ivue Material Ui and PWA"
+                                "desc": "PWA Basic Template, contains Ivue Material Ui and PWA (default Babel,Router,Sass)"
                             }
                         }
                     },
@@ -63,10 +63,10 @@
                         "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 "
+                                "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 (默认包含 Babel,Router,Vuex,Sass)"
                             },
                             "en": {
-                                "desc": "PWA Mpa Template, contains Ivue Material Ui and PWA"
+                                "desc": "PWA Mpa Template, contains Ivue Material Ui and PWA (default Babel,Router,Vuex,Sass)"
                             }
                         }
                     }
@@ -138,6 +138,35 @@
                     "value": "vuex",
                     "name": "Vuex",
                     "checked": false
+                },
+                {
+                    "value": "css",
+                    "name": "CSS Pre-processors",
+                    "checked": false
+                }
+            ],
+            "depLevel": 0,
+            "jsonType": "string"
+        },
+        "csssProcessors": {
+            "type": "list",
+            "key": "csssProcessors",
+            "name": "选择CSS预处理器",
+            "description": "（支持PostCSS，Autoprefixer和CSS模块默认情况下）",
+            "required": true,
+            "checkbox": true,
+            "list": [
+                {
+                    "value": "scss",
+                    "name": "Sass/SCSS"
+                },
+                {
+                    "value": "less",
+                    "name": "Less"
+                },
+                {
+                    "value": "stylus",
+                    "name": "Stylus"
                 }
             ],
             "depLevel": 0,

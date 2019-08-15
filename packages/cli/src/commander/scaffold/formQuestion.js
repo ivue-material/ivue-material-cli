@@ -247,28 +247,27 @@ function questionCheckboxPlus (key, schema, params) {
     let choiceList = [];
 
     sourceLish.forEach((item, index) => {
-        let { desc, name } = item;
+        let { name } = item;
         let itemLocals = item.locals && item.locals[locals.LANG];
 
         if (itemLocals) {
-            desc = itemLocals.desc || desc;
             name = itemLocals.name || name;
         }
-
-        desc = log.chalk.gray('\n    ' + desc);
 
         choiceList.push({
             value: item.value,
             name: name,
+
             checked: item.checked
         });
+
     });
 
     return {
         'type': 'checkbox',
         'name': key,
         'message': con.name,
-        'choices': choiceList,
+        'choices': choiceList
     }
 }
 

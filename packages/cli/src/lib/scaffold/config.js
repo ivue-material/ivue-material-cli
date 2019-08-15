@@ -4,7 +4,7 @@
 'use strict';
 const path = require('path');
 const utils = require('../utils');
-const jsonP = require('./templates/scaffold-config-dev.json.js.js');
+const jsonP = require('./templates/scaffold-config-dev.json');
 
 module.exports = {
 

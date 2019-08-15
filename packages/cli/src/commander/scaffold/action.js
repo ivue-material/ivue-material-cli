@@ -66,8 +66,12 @@ module.exports = async function (conf) {
     // 第二步：等待用户选择将要下载的框架和模板
     let metaParams = await formQ(metaSchema);
 
-    // 获取用户选择的参数
-    let checkboxParams = await formQ(metaSchema.checkbox)
+    let checkboxParams
+    // 只有基础模板才可以自定义选项
+    if (metaParams.template === 'Basic') {
+        // 获取用户选择的参数
+        checkboxParams = await formQ(metaSchema.checkbox)
+    }
 
     // 第三步：通过用户选择的框架和模板，下载模板
     spinner.start();
@@ -75,7 +79,10 @@ module.exports = async function (conf) {
     spinner.stop();
 
     // 设置用户选择的参数
-    scaffold.setCheckboxParams(checkboxParams.checkbox)
+    // 只有基础模板才可以自定义选项
+    if (metaParams.template === 'Basic') {
+        scaffold.setCheckboxParams(checkboxParams.checkbox);
+    }
 
     // 第四步：根据下载的模板的 meta.json 获取当前模板所需要用户输入的字段 schema
     let schema = await scaffold.getSchema(templateConf);

@@ -6,6 +6,11 @@ const template = require('./template');
 const fs = require('fs-extra');
 // ETPL是一个强复用，灵活，高性能的JavaScript的模板引擎，适用于浏览器端或节点环境中视图的生成
 const etpl = require('etpl');
+// 设置router配置
+const routerConfig = require('../../../../customize/router');
+// 设置 vuex配置
+const vuexConfig = require('../../../../customize/vuex');
+
 /**
  * 获取导出的所有的 fields （包含 default 参数）
  *
@@ -96,24 +101,88 @@ exports.setCheckboxParams = async function (params = []) {
     const storeDir = store.get('storeDir');
     const templateConfig = store.get('templateConfig');
     const etplCompile = new etpl.Engine(templateConfig.etpl);
+    const currentDir = './packages/customize/router/code'
 
     params.forEach((key) => {
         // 插入路由配置
         if (key === 'router') {
-            // 读取文件
-            let packageConfig = fs.readFileSync(path.resolve(storeDir, 'package.json'), 'utf-8');
-            // 插入版本号
-            packageConfig = JSON.parse(packageConfig)
-            packageConfig.devDependencies['vue-router'] = '^3.1.2';
-
-            // 转换字符串
-            packageConfig = JSON.stringify(packageConfig, null, 4);
-            packageConfig = etplCompile.compile(packageConfig)();
-
-            // 重新写入文件
-            fs.writeFileSync(path.resolve(storeDir, 'package.json'), packageConfig);
+            routerConfig.setFile(storeDir, etplCompile);
         }
 
-    })
-    console.log(params)
+        // 插入 vuex 配置
+        if (key === 'vuex') {
+            vuexConfig.setFile(storeDir, etplCompile)
+        }
+    });
+
+    // 修改 main.js
+    setMainJs(storeDir, currentDir, etplCompile, params);
+}
+
+/**
+ * main.js
+ *
+ * @param {String} storeDir 文件根目录
+ * @param {String} currentDir 当前文件目录
+ * @param {Function} etplCompile 字符串转换
+ * @param {Array} params 需要设置的参数
+ */
+function setMainJs (storeDir, currentDir, etplCompile, params) {
+
+    // 模块
+    let nodeModules = '';
+    // 路径列表
+    let urls = '';
+    // 配置
+    let configs = '';
+    // 名字列表
+    let names = '';
+
+
+    params.forEach((key) => {
+        // 插入路由配置
+        if (key === 'router') {
+            nodeModules += `${nodeModules.length === 0 ? '' : '\n'}import VueRouter from 'vue-router'`;
+
+            urls += `${urls.length === 0 ? '' : '\n'}import router from './router'`;
+
+            configs += `${configs.length === 0 ? '' : '\n'}Vue.use(VueRouter)`;
+
+            names += `${names.length === 0 ? '' : '\n'}    router,`;
+        }
+
+        // 插入vuex配置
+        if (key === 'vuex') {
+            urls += `${urls.length === 0 ? '' : '\n'}import store from './store'`;
+
+            names += `${names.length === 0 ? '' : '\n'}    store,`;
+        }
+    });
+
+    // main.js
+    let mainJs =
+        `import Vue from 'vue'
+${nodeModules}
+
+import App from './App.vue'
+${urls}
+
+import IvueMaterial from 'ivue-material'
+import 'ivue-material/dist/styles/ivue.css'
+
+${configs}
+Vue.use(IvueMaterial)
+
+Vue.config.productionTip = false
+
+new Vue({
+${names}
+    render: h => h(App),
+}).$mount('#app')
+`;
+
+    mainJs = etplCompile.compile(mainJs)();
+
+    // 重新写入文件
+    fs.writeFileSync(path.resolve(`${storeDir}/src`, 'main.js'), mainJs);
 }

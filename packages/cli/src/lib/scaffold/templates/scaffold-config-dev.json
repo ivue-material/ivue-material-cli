@@ -18,10 +18,10 @@
                         "desc": "基础模版，包含 Ivue Material Ui",
                         "locals": {
                             "zh_CN": {
-                                "desc": "基础模版，包含 Ivue Material Ui 只有基础模板才包含额外配置选项 (默认包含 Babel) "
+                                "desc": "基础模版，包含 Ivue Material Ui 包含额外配置选项 (默认包含 Babel) "
                             },
                             "en": {
-                                "desc": "Basic Template, contains Ivue Material Ui Only the base template contains additional configuration options (default Babel)"
+                                "desc": "Basic Template, contains Ivue Material Ui Includes additional configuration options (default Babel)"
                             }
                         }
                     },

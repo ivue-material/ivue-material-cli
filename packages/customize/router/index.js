@@ -89,8 +89,7 @@ function setHomeVue (storeDir, currentDir, etplCompile) {
  * @param {Function} etplCompile 字符串转换
  */
 exports.setFile = async function (storeDir, etplCompile) {
-    const currentDir = './packages/customize/router/code';
-
+    const currentDir = __dirname + '/code/';
     // package.json
     setPackConfig(storeDir, currentDir, etplCompile);
     // router.js

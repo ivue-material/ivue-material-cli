@@ -6,10 +6,12 @@ const template = require('./template');
 const fs = require('fs-extra');
 // ETPL是一个强复用，灵活，高性能的JavaScript的模板引擎，适用于浏览器端或节点环境中视图的生成
 const etpl = require('etpl');
-// 设置router配置
+// 设置router 配置
 const routerConfig = require('../../../../customize/router');
-// 设置 vuex配置
+// 设置 vuex 配置
 const vuexConfig = require('../../../../customize/vuex');
+// 设置 typescriptConfig 配置
+const typescriptConfig = require('../../../../customize/typescript');
 
 /**
  * 获取导出的所有的 fields （包含 default 参数）
@@ -94,8 +96,16 @@ ${names}${names.length > 0 ? '\n' : ''}    render: h => h(App),
 
     mainJs = etplCompile.compile(mainJs)();
 
+    let name
+    if (params.indexOf('typescript') > -1) {
+        name = 'main.ts';
+    }
+    else {
+        name = 'main.js';
+    }
+
     // 重新写入文件
-    fs.writeFileSync(path.resolve(`${storeDir}/src`, 'main.js'), mainJs);
+    fs.writeFileSync(path.resolve(`${storeDir}/src`, name), mainJs);
 }
 
 
@@ -205,6 +215,11 @@ exports.setCheckboxParams = async function (params = []) {
         // 插入 vuex 配置
         if (key === 'vuex') {
             vuexConfig.setFile(storeDir, etplCompile)
+        }
+
+        // 插入 typescript 配置
+        if (key === 'typescript') {
+            typescriptConfig.setFile(storeDir, etplCompile)
         }
     });
 

@@ -2,7 +2,6 @@ const fs = require('fs-extra');
 const path = require('path');
 const copyFile = require('../../cli/src/lib/utils/copyFile');
 
-
 /**
  * package.json
  *

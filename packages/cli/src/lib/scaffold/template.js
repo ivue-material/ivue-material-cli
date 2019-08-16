@@ -272,37 +272,43 @@ exports.render = async function (params) {
     let tmpStoreDir = path.resolve(conf.LOCAL_TEMPLATES_DIR, `${Date.now()}`);
     let storeDir = store.get('storeDir');
     let ajv = new Ajv({ allErrors: true });
+
     let jsonSchema = schema.getMetaJsonSchema(templateConfig);
-    let validate = ajv.compile(jsonSchema);
-    let valid = validate(params);
+    jsonSchema.then(async (res) => {
+        let validate = ajv.compile(res);
 
-    if (!valid) {
-        throw new Error(JSON.stringify(validate.errors));
-    }
+        let valid = validate(params);
 
-    try {
-        // 如果路径存在，则返回 true，否则返回 false
-        if (!fs.existsSync(storeDir)) {
-            await this.download(params);
-        }
-        else {
+        if (!valid) {
+            throw new Error(JSON.stringify(validate.errors));
         }
 
-        // 将创建的目录路径
-        fs.mkdirSync(tmpStoreDir);
+        try {
+            // 如果路径存在，则返回 true，否则返回 false
+            if (!fs.existsSync(storeDir)) {
+                await this.download(params);
+            }
+            else {
+            }
 
-        // 拷贝文件
-        fs.copySync(storeDir, tmpStoreDir);
+            // 将创建的目录路径
+            fs.mkdirSync(tmpStoreDir);
 
-        //  渲染 template 里面的所有文件
-        let renderResult = await renderTemplate(params, tmpStoreDir);
+            // 拷贝文件
+            fs.copySync(storeDir, tmpStoreDir);
 
-        // 删除文件
-        fs.removeSync(tmpStoreDir);
+            //  渲染 template 里面的所有文件
+            let renderResult = await renderTemplate(params, tmpStoreDir);
 
-        return renderResult;
-    }
-    catch (e) {
-        throw new Error(locals.RENDER_TEMPLATE_ERROR);
-    }
+            // 删除文件
+            fs.removeSync(tmpStoreDir);
+
+            return renderResult;
+        }
+        catch (e) {
+            throw new Error(locals.RENDER_TEMPLATE_ERROR);
+        }
+    });
+
+
 }

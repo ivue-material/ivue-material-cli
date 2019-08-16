@@ -68,7 +68,7 @@ function setHelloVue (storeDir, currentDir, etplCompile) {
  * @param {Function} etplCompile 字符串转换
  */
 exports.setFile = async function (storeDir, etplCompile) {
-    const currentDir = './packages/customize/vuex/code';
+    const currentDir = __dirname + '/code/';
 
     // package.json
     setPackConfig(storeDir, currentDir, etplCompile);

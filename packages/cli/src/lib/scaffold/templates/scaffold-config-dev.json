@@ -18,10 +18,10 @@
                         "desc": "基础模版，包含 Ivue Material Ui",
                         "locals": {
                             "zh_CN": {
-                                "desc": "基础模版，包含 Ivue Material Ui 包含额外配置选项 (默认包含 Babel) "
+                                "desc": "基础模版，包含 Ivue Material Ui \n包含额外配置选项 (默认包含 Babel)"
                             },
                             "en": {
-                                "desc": "Basic Template, contains Ivue Material Ui Includes additional configuration options (default Babel)"
+                                "desc": "Basic Template, contains Ivue Material Ui \nIncludes additional configuration options (default Babel)"
                             }
                         }
                     },
@@ -33,10 +33,10 @@
                         "desc": "多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "多页面模版，包含 Ivue Material Ui (默认包含 Babel, Router,Sass)"
+                                "desc": "多页面模版，包含 Ivue Material Ui \n(默认包含 Babel, Router,Sass)"
                             },
                             "en": {
-                                "desc": "Mpa Template, contains Ivue Material Ui (default Babel,Router,Sass)"
+                                "desc": "Mpa Template, contains Ivue Material Ui \n(default Babel,Router,Sass)"
                             }
                         }
                     },
@@ -48,10 +48,10 @@
                         "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 (默认包含 Babel,Router,Sass)"
+                                "desc": "PWA 单页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 \n(默认包含 Babel,Router,Sass)"
                             },
                             "en": {
-                                "desc": "PWA Basic Template, contains Ivue Material Ui and PWA (default Babel,Router,Sass)"
+                                "desc": "PWA Basic Template, contains Ivue Material Ui and PWA \n(default Babel,Router,Sass)"
                             }
                         }
                     },
@@ -63,10 +63,10 @@
                         "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容",
                         "locals": {
                             "zh_CN": {
-                                "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 (默认包含 Babel,Router,Vuex,Sass)"
+                                "desc": "PWA 多页面模版，包含 Ivue Material Ui 和 PWA 工程化相关必需内容 \n(默认包含 Babel,Router,Vuex,Sass)"
                             },
                             "en": {
-                                "desc": "PWA Mpa Template, contains Ivue Material Ui and PWA (default Babel,Router,Vuex,Sass)"
+                                "desc": "PWA Mpa Template, contains Ivue Material Ui and PWA \n(default Babel,Router,Vuex,Sass)"
                             }
                         }
                     }

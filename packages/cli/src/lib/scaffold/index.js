@@ -110,6 +110,57 @@ ${names}${names.length > 0 ? '\n' : ''}    render: h => h(App),
 
 
 /**
+ * shims-vue.d.ts
+ *
+ * @param {String} storeDir 文件根目录
+ * @param {String} currentDir 当前文件目录
+ * @param {Function} etplCompile 字符串转换
+ * @param {Array} params 需要设置的参数
+ */
+function setShimsVueDTs (storeDir, currentDir, etplCompile, params) {
+    // 模块
+    let nodeModules = '';
+    // 路径列表
+    let urls = '';
+    // 配置
+    let configs = '';
+    // 名字列表
+    let names = '';
+
+    params.forEach((key) => {
+        // 插入路由配置
+        if (key === 'router') {
+            nodeModules += `import VueRouter from 'vue-router'\n`;
+
+            urls += `import { Route } from 'vue-router'\n`;
+
+            configs +=
+                `\ndeclare module 'vue/types/vue' {
+    interface Vue {
+        $router: VueRouter;
+        $route: Route;
+    }
+}`;
+        }
+    });
+
+    // main.js
+    let shimsVueDTs =
+        `${nodeModules}${urls}declare module '*.vue' {
+    import Vue from 'vue'
+    export default Vue
+}${configs}
+`;
+
+    shimsVueDTs = etplCompile.compile(shimsVueDTs)();
+
+
+    // 重新写入文件
+    fs.writeFileSync(path.resolve(`${storeDir}/src`, 'shims-vue.d.ts'), shimsVueDTs);
+}
+
+
+/**
  * package.json
  *
  * @param {String} storeDir 文件根目录
@@ -225,6 +276,11 @@ exports.setCheckboxParams = async function (params = []) {
 
     // 修改 main.js
     setMainJs(storeDir, currentDir, etplCompile, params);
+
+    // 设置 shims-vue.d.ts
+    if (params.indexOf('typescript') > -1) {
+        setShimsVueDTs(storeDir, currentDir, etplCompile, params);
+    }
 }
 
 

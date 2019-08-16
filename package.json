@@ -1,11 +1,11 @@
 {
     "name": "ivue-material-cli",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "",
     "scripts": {},
     "files": [
         "bin",
-        "src"
+        "packages"
     ],
     "bin": {
         "ivue": "bin/ivue-material-cli.js"

@@ -118,38 +118,12 @@ ${names}${names.length > 0 ? '\n' : ''}    render: h => h(App),
  * @param {Array} params 需要设置的参数
  */
 function setShimsVueDTs (storeDir, currentDir, etplCompile, params) {
-    // 模块
-    let nodeModules = '';
-    // 路径列表
-    let urls = '';
-    // 配置
-    let configs = '';
-    // 名字列表
-    let names = '';
-
-    params.forEach((key) => {
-        // 插入路由配置
-        if (key === 'router') {
-            nodeModules += `import VueRouter from 'vue-router'\n`;
-
-            urls += `import { Route } from 'vue-router'\n`;
-
-            configs +=
-                `\ndeclare module 'vue/types/vue' {
-    interface Vue {
-        $router: VueRouter;
-        $route: Route;
-    }
-}`;
-        }
-    });
-
     // main.js
     let shimsVueDTs =
-        `${nodeModules}${urls}declare module '*.vue' {
+        `declare module '*.vue' {
     import Vue from 'vue'
     export default Vue
-}${configs}
+}
 `;
 
     shimsVueDTs = etplCompile.compile(shimsVueDTs)();
@@ -265,12 +239,12 @@ exports.setCheckboxParams = async function (params = []) {
 
         // 插入 vuex 配置
         if (key === 'vuex') {
-            vuexConfig.setFile(storeDir, etplCompile)
+            vuexConfig.setFile(storeDir, etplCompile, params);
         }
 
         // 插入 typescript 配置
         if (key === 'typescript') {
-            typescriptConfig.setFile(storeDir, etplCompile)
+            typescriptConfig.setFile(storeDir, etplCompile);
         }
     });
 

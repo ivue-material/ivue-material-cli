@@ -31,15 +31,26 @@ function setPackConfig (storeDir, currentDir, etplCompile) {
  * @param {String} storeDir 文件根目录
  * @param {String} currentDir 当前文件目录
  * @param {Function} etplCompile 字符串转换
+ * @param {Array} params 需要设置的参数
  */
-function setStore (storeDir, currentDir, etplCompile) {
+function setStore (storeDir, currentDir, etplCompile, params) {
     let storeUrl = `${storeDir}/src/store`;
+
+    let _currentDir;
+
+    // 是否选择了 typescript
+    if (params.indexOf('typescript') > -1) {
+        _currentDir = `${currentDir}/storets`;
+    }
+    else {
+        _currentDir = `${currentDir}/store`
+    }
 
     // 创建 store 文件夹
     fs.mkdirSync(path.resolve(storeUrl));
 
     // 复制 store 文件
-    copyFile.copy(`${currentDir}/store`, storeUrl);
+    copyFile.copy(_currentDir, storeUrl);
 }
 
 /**
@@ -65,15 +76,16 @@ function setHelloVue (storeDir, currentDir, etplCompile) {
  *
  * @param {String} storeDir 文件根目录
  * @param {Function} etplCompile 字符串转换
+ * @param {String} params 需要设置的参数
  */
-exports.setFile = async function (storeDir, etplCompile) {
+exports.setFile = async function (storeDir, etplCompile, params) {
     const currentDir = __dirname + '/code/';
 
     // package.json
     setPackConfig(storeDir, currentDir, etplCompile);
 
     // store dir
-    setStore(storeDir, currentDir, etplCompile);
+    setStore(storeDir, currentDir, etplCompile, params);
 
     // Hello.vue
     setHelloVue(storeDir, currentDir, etplCompile);

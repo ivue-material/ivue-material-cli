@@ -1,1 +1,1 @@
-declare module 'ivue-material'
+declare module 'ivue-material';

@@ -234,7 +234,7 @@ exports.setCheckboxParams = async function (params = []) {
     params.forEach((key) => {
         // 插入路由配置
         if (key === 'router') {
-            routerConfig.setFile(storeDir, etplCompile);
+            routerConfig.setFile(storeDir, etplCompile,params);
         }
 
         // 插入 vuex 配置

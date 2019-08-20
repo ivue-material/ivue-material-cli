@@ -30,15 +30,25 @@ function setPackConfig (storeDir, currentDir, etplCompile) {
  * @param {String} storeDir 文件根目录
  * @param {String} currentDir 当前文件目录
  * @param {Function} etplCompile 字符串转换
+ * @param {Array} params 需要设置的参数
  */
-function setRouterJs (storeDir, currentDir, etplCompile) {
+function setRouterJs (storeDir, currentDir, etplCompile, params) {
     // 读取文件
-    let routerJs = fs.readFileSync(path.resolve(currentDir, 'router.js'), 'utf-8');
+    let routerJs = fs.readFileSync(path.resolve(currentDir, 'router.ts'), 'utf-8');
+    let routerName;
+
+    // 是否选择了 typescript
+    if (params.indexOf('typescript') > -1) {
+        routerName = 'router.ts';
+    }
+    else {
+        routerName = 'router.js';
+    }
 
     routerJs = etplCompile.compile(routerJs)();
 
     // 重新写入文件
-    fs.writeFileSync(path.resolve(`${storeDir}/src`, 'router.js'), routerJs);
+    fs.writeFileSync(path.resolve(`${storeDir}/src`, routerName), routerJs);
 }
 
 
@@ -87,13 +97,14 @@ function setHomeVue (storeDir, currentDir, etplCompile) {
  *
  * @param {String} storeDir 文件根目录
  * @param {Function} etplCompile 字符串转换
+ * @param {Array} params 需要设置的参数
  */
-exports.setFile = async function (storeDir, etplCompile) {
+exports.setFile = async function (storeDir, etplCompile, params) {
     const currentDir = __dirname + '/code/';
     // package.json
     setPackConfig(storeDir, currentDir, etplCompile);
     // router.js
-    setRouterJs(storeDir, currentDir, etplCompile);
+    setRouterJs(storeDir, currentDir, etplCompile, params);
     // App.vue
     setAppVue(storeDir, currentDir, etplCompile);
     // Home.vue

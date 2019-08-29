@@ -27,6 +27,8 @@ async function exportProject (params, templateConf, checkboxParams) {
     await scaffold.render(params, templateConf, checkboxParams);
     spinner.stop();
 
+    console.log(params)
+
     // for log beautify
     console.log('');
     log.info(locals.INIT_SUCCESS);

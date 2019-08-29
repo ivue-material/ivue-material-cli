@@ -7,7 +7,7 @@ const locals = require('../../locals')();
 
 module.exports = function (program) {
 
-    // define lavas init command
+    // define init command
     program
         .command('init')
         .description(locals.INIT_DESC)

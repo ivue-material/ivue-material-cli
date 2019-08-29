@@ -67,6 +67,7 @@ logTypes.forEach(function (item) {
      */
     log[item.name] = function (format, varArgs) {
 
+        // 格式化输出字符串
         let msg = util.format.apply(null, arguments);
 
         if (process.env.IVUE_LOG_SILENT) {

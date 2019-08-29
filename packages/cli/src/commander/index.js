@@ -32,12 +32,6 @@ checkUpdate().then(async () => {
         .usage('[commands] [options]')
         // 定义顶级命令的参数语法。
         .arguments('<cmd> [env]')
-        // 使用 flags ，description 和可选定义选项
-        // 强制 fn。
-
-        // flags 字符串应包含短标志和长标志，
-        // 用逗号，管道或空格分隔。 以下均有效
-        // 当使用 --help 时，all 将以这种方式输出。
         // 查看当前版本
         .option('-v, --version', locals.SHOW_VERSION)
         // 注册命令的回调

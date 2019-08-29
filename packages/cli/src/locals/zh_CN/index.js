@@ -1,5 +1,3 @@
-const chalk = require('chalk');
-
 module.exports = {
     LANG: 'zh_CN',
     WELECOME: `欢迎使用`,

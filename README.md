@@ -16,3 +16,12 @@ $ sudo npm install -g ivue-material-cli
 ```
 $ ivue init
 ```
+
+### 4种模板类型可供选择
+
+![image](https://user-images.githubusercontent.com/26755049/111015072-fd91c080-83e1-11eb-8389-68ae709288af.png)
+
+### 目前支持4个选项选择
+
+![image](https://user-images.githubusercontent.com/26755049/111015119-39c52100-83e2-11eb-8f13-1f0923b3f1d3.png)
+
